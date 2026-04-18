@@ -61,5 +61,8 @@ def delete_expense(id):
     return "Delete expense — coming in Step 9"
 
 
+from database.db import init_db
+init_db()
+
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
