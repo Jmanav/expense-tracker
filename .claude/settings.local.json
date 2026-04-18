@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Cipher/AppData/Local/Programs/Python//**)",
+      "Bash(ls /c/Python*)",
+      "Read(//c/Users/Cipher/AppData/Local/Microsoft/WindowsApps/**)"
+    ]
+  }
+}
