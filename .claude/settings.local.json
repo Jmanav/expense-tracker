@@ -3,7 +3,9 @@
     "allow": [
       "Read(//c/Users/Cipher/AppData/Local/Programs/Python//**)",
       "Bash(ls /c/Python*)",
-      "Read(//c/Users/Cipher/AppData/Local/Microsoft/WindowsApps/**)"
+      "Read(//c/Users/Cipher/AppData/Local/Microsoft/WindowsApps/**)",
+      "Bash(py --version)",
+      "Read(//c/Users/Cipher/**)"
     ]
   }
 }
