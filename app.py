@@ -1,6 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from database.db import init_db, get_db
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
+app.secret_key = "dev-secret-key"
 
 
 # ------------------------------------------------------------------ #
@@ -12,8 +15,36 @@ def landing():
     return render_template("landing.html")
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        email = request.form.get("email", "").strip()
+        password = request.form.get("password", "")
+        confirm = request.form.get("confirm_password", "")
+
+        if not name or not email or not password:
+            flash("All fields are required.", "error")
+            return render_template("register.html")
+
+        if password != confirm:
+            flash("Passwords do not match.", "error")
+            return render_template("register.html")
+
+        try:
+            db = get_db()
+            db.execute(
+                "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
+                (name, email, generate_password_hash(password)),
+            )
+            db.commit()
+        except Exception:
+            flash("An account with that email already exists.", "error")
+            return render_template("register.html")
+
+        flash("Account created! Please sign in.", "success")
+        return redirect(url_for("login"))
+
     return render_template("register.html")
 
 
@@ -61,7 +92,6 @@ def delete_expense(id):
     return "Delete expense — coming in Step 9"
 
 
-from database.db import init_db
 init_db()
 
 if __name__ == "__main__":
